@@ -1,0 +1,64 @@
+terraform apply
+google_compute_network.vpc_network: Refreshing state... [id=projects/secret-grammar-380716/global/networks/net-00]
+google_service_account.sa: Refreshing state... [id=projects/secret-grammar-380716/serviceAccounts/sa-tech@secret-grammar-380716.iam.gserviceaccount.com]
+google_compute_subnetwork.public-subnetwork: Refreshing state... [id=projects/secret-grammar-380716/regions/us-central1/subnetworks/subnet-00]
+google_compute_firewall.rules: Refreshing state... [id=projects/secret-grammar-380716/global/firewalls/firewall-rule]
+google_compute_instance.vm_instance: Refreshing state... [id=projects/secret-grammar-380716/zones/us-central1-c/instances/vm-00]
+google_service_account_key.sa_key: Refreshing state... [id=projects/secret-grammar-380716/serviceAccounts/sa-tech@secret-grammar-380716.iam.gserviceaccount.com/keys/95f42f8e811e55fb7856fd398853d32dd89bf854]
+
+Note: Objects have changed outside of Terraform
+
+Terraform detected the following changes made outside of Terraform since the last "terraform apply":
+
+  # google_compute_firewall.rules has changed
+  ~ resource "google_compute_firewall" "rules" {
+        id                      = "projects/secret-grammar-380716/global/firewalls/firewall-rule"
+        name                    = "firewall-rule"
+      + source_service_accounts = []
+      + source_tags             = []
+      + target_service_accounts = []
+      + target_tags             = []
+        # (9 unchanged attributes hidden)
+
+        # (1 unchanged block hidden)
+    }
+
+
+Unless you have made equivalent changes to your configuration, or ignored the relevant attributes using ignore_changes, the following plan
+may include actions to undo or respond to these changes.
+
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # google_project_iam_member.sa["roles/cloudconfig.serviceAgent"] will be created
+  + resource "google_project_iam_member" "sa" {
+      + etag    = (known after apply)
+      + id      = (known after apply)
+      + member  = "serviceAccount:sa-tech@secret-grammar-380716.iam.gserviceaccount.com"
+      + project = "secret-grammar-380716"
+      + role    = "roles/cloudconfig.serviceAgent"
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+google_project_iam_member.sa["roles/cloudconfig.serviceAgent"]: Creating...
+google_project_iam_member.sa["roles/cloudconfig.serviceAgent"]: Still creating... [10s elapsed]
+google_project_iam_member.sa["roles/cloudconfig.serviceAgent"]: Creation complete after 10s [id=secret-grammar-380716/roles/cloudconfig.serviceAgent/serviceAccount:sa-tech@secret-grammar-380716.iam.gserviceaccount.com]
+
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+decoded_private_key = <sensitive>
+private_key = <sensitive>
+public_ip = "34.68.52.91"
