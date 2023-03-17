@@ -38,5 +38,5 @@ variable "sa_name" {
 
 variable "roles" {
   type        = list(string)
-  default     = ["roles/cloudconfig.serviceAgent"]
+  default     = ["roles/cloudconfig.serviceAgent","roles/iam.serviceAccountUser"]
 }

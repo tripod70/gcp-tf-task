@@ -42,6 +42,7 @@ resource "google_compute_firewall" "rules" {
 resource "google_compute_instance" "vm_instance" {
   name         = var.gce_instance_name
   machine_type = var.gce_instance_type
+  allow_stopping_for_update = true
 
   boot_disk {
     initialize_params {
@@ -53,6 +54,10 @@ resource "google_compute_instance" "vm_instance" {
     network = google_compute_network.vpc_network.name
     access_config {
     }
+  }
+  service_account {
+    email  = "${google_service_account.sa.email}"
+    scopes = ["cloud-platform"]
   }
 }
 
