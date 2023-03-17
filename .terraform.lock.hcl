@@ -8,3 +8,10 @@ provider "registry.terraform.io/hashicorp/google" {
     "h1:iax8rUF2cBEERGs8vsEAiNnxrZqeWpMHoWVYTf/P2po=",
   ]
 }
+
+provider "registry.terraform.io/hashicorp/random" {
+  version = "3.4.3"
+  hashes = [
+    "h1:tL3katm68lX+4lAncjQA9AXL4GR/VM+RPwqYf4D2X8Q=",
+  ]
+}
