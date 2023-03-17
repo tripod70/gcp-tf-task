@@ -29,9 +29,7 @@ resource "google_compute_subnetwork" "public-subnetwork" {
 resource "google_compute_firewall" "rules" { 
   project = var.project_id
   name = "firewall-rule" 
-#  network = var.vpc_subnetwork_name
   network = google_compute_network.vpc_network.self_link
-# "projects.project-id/regions/us-east1/subnetworks/default"
   allow { 
     protocol = "tcp" 
     ports = ["22", "80", "443"] 
@@ -62,7 +60,7 @@ resource "google_compute_instance" "vm_instance" {
 }
 
 resource "google_service_account" "sa" {
-  account_id   = "sa-tech"
+  account_id   = var.sa_name
   project      = var.project_id
 }
 
@@ -77,5 +75,3 @@ resource "google_project_iam_member" "sa" {
 resource "google_service_account_key" "sa_key" {
   service_account_id = google_service_account.sa.name
 }
-
-
