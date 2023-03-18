@@ -17,19 +17,22 @@ provider "google" {
 
 resource "google_compute_network" "vpc_network" {
   name = var.vpc_network_name
+  auto_create_subnetworks = false
 }
 
 resource "google_compute_subnetwork" "public-subnetwork" {
+  network = google_compute_network.vpc_network.name 
   name = var.vpc_subnetwork_name
   ip_cidr_range = var.ip_cidr_range
   region = var.region
-  network = google_compute_network.vpc_network.name 
+  depends_on    = [google_compute_network.vpc_network]
 }
 
 resource "google_compute_firewall" "rules" { 
   project = var.project_id
   name = "firewall-rule" 
-  network = google_compute_network.vpc_network.self_link
+  depends_on    = [google_compute_network.vpc_network]
+  network = google_compute_network.vpc_network.name
   allow { 
     protocol = "tcp" 
     ports = ["22", "80", "443"] 
@@ -49,12 +52,14 @@ resource "google_compute_instance" "vm_instance" {
   }
 
   network_interface {
-    network = google_compute_network.vpc_network.name
+    #network =  google_compute_network.vpc_network.name
+    subnetwork = google_compute_subnetwork.public-subnetwork.name
     access_config {
     }
   }
   service_account {
     email  = "${google_service_account.sa.email}"
+    #email  = data.terraform_remote_state.gcs.outputs.sa_email
     scopes = ["cloud-platform"]
   }
 }

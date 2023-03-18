@@ -25,7 +25,7 @@ variable "firewall_src_ranges" {
 }
 
 variable "gce_instance_name" {
-    default = "vm-00"
+#    default = "vm-00"
 }
 
 variable "gce_instance_type" {

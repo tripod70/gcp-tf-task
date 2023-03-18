@@ -12,6 +12,11 @@ output "public_ip" {
   value     = google_compute_instance.vm_instance.network_interface[0].access_config[0].nat_ip
 }
 
-output "net_info" {
-  value     = data.terraform_remote_state.gcs.outputs.public_ip
+#output "nat_ip" {
+#  value     = google_compute_instance.vm_instance.network_interface[0].subnetwork[0].access_config[0].nat_ip
+#              google_compute_subnetwork.public-subnetwork.name
+#}
+
+output "sa_email" {
+   value    = google_service_account.sa.email
 }

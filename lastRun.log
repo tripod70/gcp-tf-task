@@ -1,49 +1,213 @@
-terraform apply
-google_compute_network.vpc_network: Refreshing state... [id=projects/secret-grammar-380716/global/networks/net-00]
-google_service_account.sa: Refreshing state... [id=projects/secret-grammar-380716/serviceAccounts/sa-tech@secret-grammar-380716.iam.gserviceaccount.com]
-google_compute_subnetwork.public-subnetwork: Refreshing state... [id=projects/secret-grammar-380716/regions/us-central1/subnetworks/subnet-00]
-google_compute_firewall.rules: Refreshing state... [id=projects/secret-grammar-380716/global/firewalls/firewall-rule]
-google_compute_instance.vm_instance: Refreshing state... [id=projects/secret-grammar-380716/zones/us-central1-c/instances/vm-00]
-google_service_account_key.sa_key: Refreshing state... [id=projects/secret-grammar-380716/serviceAccounts/sa-tech@secret-grammar-380716.iam.gserviceaccount.com/keys/95f42f8e811e55fb7856fd398853d32dd89bf854]
+strinogin gcp-tf-task (main) > terraform apply
+var.gce_instance_name
+  Enter a value: vm-00
 
-Note: Objects have changed outside of Terraform
-
-Terraform detected the following changes made outside of Terraform since the last "terraform apply":
-
-  # google_compute_firewall.rules has changed
-  ~ resource "google_compute_firewall" "rules" {
-        id                      = "projects/secret-grammar-380716/global/firewalls/firewall-rule"
-        name                    = "firewall-rule"
-      + source_service_accounts = []
-      + source_tags             = []
-      + target_service_accounts = []
-      + target_tags             = []
-        # (9 unchanged attributes hidden)
-
-        # (1 unchanged block hidden)
-    }
-
-
-Unless you have made equivalent changes to your configuration, or ignored the relevant attributes using ignore_changes, the following plan
-may include actions to undo or respond to these changes.
-
-───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
   + create
 
 Terraform will perform the following actions:
 
+  # google_compute_firewall.rules will be created
+  + resource "google_compute_firewall" "rules" {
+      + creation_timestamp = (known after apply)
+      + destination_ranges = (known after apply)
+      + direction          = (known after apply)
+      + enable_logging     = (known after apply)
+      + id                 = (known after apply)
+      + name               = "firewall-rule"
+      + network            = "net-00"
+      + priority           = 1000
+      + project            = "secret-grammar-380716"
+      + self_link          = (known after apply)
+      + source_ranges      = [
+          + "188.134.93.0/24",
+          + "85.249.0.0/16",
+        ]
+
+      + allow {
+          + ports    = [
+              + "22",
+              + "80",
+              + "443",
+            ]
+          + protocol = "tcp"
+        }
+    }
+
+  # google_compute_instance.vm_instance will be created
+  + resource "google_compute_instance" "vm_instance" {
+      + allow_stopping_for_update = true
+      + can_ip_forward            = false
+      + cpu_platform              = (known after apply)
+      + current_status            = (known after apply)
+      + deletion_protection       = false
+      + guest_accelerator         = (known after apply)
+      + id                        = (known after apply)
+      + instance_id               = (known after apply)
+      + label_fingerprint         = (known after apply)
+      + machine_type              = "f1-micro"
+      + metadata_fingerprint      = (known after apply)
+      + min_cpu_platform          = (known after apply)
+      + name                      = "vm-00"
+      + project                   = (known after apply)
+      + self_link                 = (known after apply)
+      + tags_fingerprint          = (known after apply)
+      + zone                      = (known after apply)
+
+      + boot_disk {
+          + auto_delete                = true
+          + device_name                = (known after apply)
+          + disk_encryption_key_sha256 = (known after apply)
+          + kms_key_self_link          = (known after apply)
+          + mode                       = "READ_WRITE"
+          + source                     = (known after apply)
+
+          + initialize_params {
+              + image  = "debian-cloud/debian-11"
+              + labels = (known after apply)
+              + size   = (known after apply)
+              + type   = (known after apply)
+            }
+        }
+
+      + confidential_instance_config {
+          + enable_confidential_compute = (known after apply)
+        }
+
+      + network_interface {
+          + ipv6_access_type   = (known after apply)
+          + name               = (known after apply)
+          + network            = (known after apply)
+          + network_ip         = (known after apply)
+          + stack_type         = (known after apply)
+          + subnetwork         = "subnet-00"
+          + subnetwork_project = (known after apply)
+
+          + access_config {
+              + nat_ip       = (known after apply)
+              + network_tier = (known after apply)
+            }
+        }
+
+      + reservation_affinity {
+          + type = (known after apply)
+
+          + specific_reservation {
+              + key    = (known after apply)
+              + values = (known after apply)
+            }
+        }
+
+      + scheduling {
+          + automatic_restart           = (known after apply)
+          + instance_termination_action = (known after apply)
+          + min_node_cpus               = (known after apply)
+          + on_host_maintenance         = (known after apply)
+          + preemptible                 = (known after apply)
+          + provisioning_model          = (known after apply)
+
+          + node_affinities {
+              + key      = (known after apply)
+              + operator = (known after apply)
+              + values   = (known after apply)
+            }
+        }
+
+      + service_account {
+          + email  = (known after apply)
+          + scopes = [
+              + "https://www.googleapis.com/auth/cloud-platform",
+            ]
+        }
+    }
+
+  # google_compute_network.vpc_network will be created
+  + resource "google_compute_network" "vpc_network" {
+      + auto_create_subnetworks         = false
+      + delete_default_routes_on_create = false
+      + gateway_ipv4                    = (known after apply)
+      + id                              = (known after apply)
+      + internal_ipv6_range             = (known after apply)
+      + mtu                             = (known after apply)
+      + name                            = "net-00"
+      + project                         = (known after apply)
+      + routing_mode                    = (known after apply)
+      + self_link                       = (known after apply)
+    }
+
+  # google_compute_subnetwork.public-subnetwork will be created
+  + resource "google_compute_subnetwork" "public-subnetwork" {
+      + creation_timestamp         = (known after apply)
+      + external_ipv6_prefix       = (known after apply)
+      + fingerprint                = (known after apply)
+      + gateway_address            = (known after apply)
+      + id                         = (known after apply)
+      + ip_cidr_range              = "10.2.1.0/24"
+      + ipv6_cidr_range            = (known after apply)
+      + name                       = "subnet-00"
+      + network                    = "net-00"
+      + private_ip_google_access   = (known after apply)
+      + private_ipv6_google_access = (known after apply)
+      + project                    = (known after apply)
+      + purpose                    = (known after apply)
+      + region                     = "us-central1"
+      + secondary_ip_range         = (known after apply)
+      + self_link                  = (known after apply)
+      + stack_type                 = (known after apply)
+    }
+
   # google_project_iam_member.sa["roles/cloudconfig.serviceAgent"] will be created
   + resource "google_project_iam_member" "sa" {
       + etag    = (known after apply)
       + id      = (known after apply)
-      + member  = "serviceAccount:sa-tech@secret-grammar-380716.iam.gserviceaccount.com"
+      + member  = (known after apply)
       + project = "secret-grammar-380716"
       + role    = "roles/cloudconfig.serviceAgent"
     }
 
-Plan: 1 to add, 0 to change, 0 to destroy.
+  # google_project_iam_member.sa["roles/iam.serviceAccountUser"] will be created
+  + resource "google_project_iam_member" "sa" {
+      + etag    = (known after apply)
+      + id      = (known after apply)
+      + member  = (known after apply)
+      + project = "secret-grammar-380716"
+      + role    = "roles/iam.serviceAccountUser"
+    }
+
+  # google_service_account.sa will be created
+  + resource "google_service_account" "sa" {
+      + account_id = "sa-tech"
+      + disabled   = false
+      + email      = (known after apply)
+      + id         = (known after apply)
+      + member     = (known after apply)
+      + name       = (known after apply)
+      + project    = "secret-grammar-380716"
+      + unique_id  = (known after apply)
+    }
+
+  # google_service_account_key.sa_key will be created
+  + resource "google_service_account_key" "sa_key" {
+      + id                 = (known after apply)
+      + key_algorithm      = "KEY_ALG_RSA_2048"
+      + name               = (known after apply)
+      + private_key        = (sensitive value)
+      + private_key_type   = "TYPE_GOOGLE_CREDENTIALS_FILE"
+      + public_key         = (known after apply)
+      + public_key_type    = "TYPE_X509_PEM_FILE"
+      + service_account_id = (known after apply)
+      + valid_after        = (known after apply)
+      + valid_before       = (known after apply)
+    }
+
+Plan: 8 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + decoded_private_key = (sensitive value)
+  + private_key         = (sensitive value)
+  + public_ip           = (known after apply)
+  + sa_email            = (known after apply)
 
 Do you want to perform these actions?
   Terraform will perform the actions described above.
@@ -51,14 +215,536 @@ Do you want to perform these actions?
 
   Enter a value: yes
 
+google_service_account.sa: Creating...
+google_compute_network.vpc_network: Creating...
+google_service_account.sa: Creation complete after 2s [id=projects/secret-grammar-380716/serviceAccounts/sa-tech@secret-grammar-380716.iam.gserviceaccount.com]
 google_project_iam_member.sa["roles/cloudconfig.serviceAgent"]: Creating...
-google_project_iam_member.sa["roles/cloudconfig.serviceAgent"]: Still creating... [10s elapsed]
-google_project_iam_member.sa["roles/cloudconfig.serviceAgent"]: Creation complete after 10s [id=secret-grammar-380716/roles/cloudconfig.serviceAgent/serviceAccount:sa-tech@secret-grammar-380716.iam.gserviceaccount.com]
+google_project_iam_member.sa["roles/iam.serviceAccountUser"]: Creating...
+google_service_account_key.sa_key: Creating...
+google_service_account_key.sa_key: Creation complete after 1s [id=projects/secret-grammar-380716/serviceAccounts/sa-tech@secret-grammar-380716.iam.gserviceaccount.com/keys/cd610c42c2bea9e51f255116f91e3063901aa5c1]
+google_compute_network.vpc_network: Still creating... [10s elapsed]
+google_project_iam_member.sa["roles/iam.serviceAccountUser"]: Creation complete after 9s [id=secret-grammar-380716/roles/iam.serviceAccountUser/serviceAccount:sa-tech@secret-grammar-380716.iam.gserviceaccount.com]
+google_project_iam_member.sa["roles/cloudconfig.serviceAgent"]: Creation complete after 9s [id=secret-grammar-380716/roles/cloudconfig.serviceAgent/serviceAccount:sa-tech@secret-grammar-380716.iam.gserviceaccount.com]
+google_compute_network.vpc_network: Creation complete after 12s [id=projects/secret-grammar-380716/global/networks/net-00]
+google_compute_subnetwork.public-subnetwork: Creating...
+google_compute_firewall.rules: Creating...
+google_compute_subnetwork.public-subnetwork: Still creating... [10s elapsed]
+google_compute_firewall.rules: Still creating... [10s elapsed]
+google_compute_firewall.rules: Creation complete after 12s [id=projects/secret-grammar-380716/global/firewalls/firewall-rule]
+google_compute_subnetwork.public-subnetwork: Creation complete after 14s [id=projects/secret-grammar-380716/regions/us-central1/subnetworks/subnet-00]
+google_compute_instance.vm_instance: Creating...
+google_compute_instance.vm_instance: Still creating... [10s elapsed]
+google_compute_instance.vm_instance: Still creating... [20s elapsed]
+google_compute_instance.vm_instance: Still creating... [30s elapsed]
+google_compute_instance.vm_instance: Creation complete after 38s [id=projects/secret-grammar-380716/zones/us-central1-c/instances/vm-00]
+Releasing state lock. This may take a few moments...
 
-Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+Apply complete! Resources: 8 added, 0 changed, 0 destroyed.
 
 Outputs:
 
 decoded_private_key = <sensitive>
 private_key = <sensitive>
-public_ip = "34.68.52.91"
+public_ip = "34.70.186.228"
+sa_email = "sa-tech@secret-grammar-380716.iam.gserviceaccount.com"
+
+
+SSH - session
+---------------------------------------------------------------------------------------------------------------------------------------
+Linux vm-00 5.10.0-21-cloud-amd64 #1 SMP Debian 5.10.162-1 (2023-01-21) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+ptrsdacc@vm-00:~$ who
+ptrsdacc pts/0        2023-03-19 09:37 (35.235.244.34)
+ptrsdacc@vm-00:~$ last
+ptrsdacc pts/0        35.235.244.34    Sun Mar 19 09:37   still logged in
+reboot   system boot  5.10.0-21-cloud- Sun Mar 19 09:01   still running
+
+wtmp begins Sun Mar 19 09:01:18 2023
+
+Linux vm-00 5.10.0-21-cloud-amd64 #1 SMP Debian 5.10.162-1 (2023-01-21) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+ptrsdacc@vm-00:~$ who
+ptrsdacc pts/0        2023-03-19 09:37 (35.235.244.34)
+ptrsdacc@vm-00:~$ last
+ptrsdacc pts/0        35.235.244.34    Sun Mar 19 09:37   still logged in
+reboot   system boot  5.10.0-21-cloud- Sun Mar 19 09:01   still running
+
+ptrsdacc@vm-00:~$ sudo dmesg
+[    0.000000] Linux version 5.10.0-21-cloud-amd64 (debian-kernel@lists.debian.org) (gcc-10 (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2) #1 SMP Debian 5.10.162-1 (2023-01-21)
+[    0.000000] Command line: BOOT_IMAGE=/boot/vmlinuz-5.10.0-21-cloud-amd64 root=UUID=9eb3b591-a503-403b-b96c-32352ee68fc8 ro console=tty0 console=ttyS0,115200 earlyprintk=ttyS0,115200 consoleblank=0
+[    0.000000] x86/fpu: Supporting XSAVE feature 0x001: 'x87 floating point registers'
+[    0.000000] x86/fpu: Supporting XSAVE feature 0x002: 'SSE registers'
+[    0.000000] x86/fpu: Supporting XSAVE feature 0x004: 'AVX registers'
+[    0.000000] x86/fpu: xstate_offset[2]:  576, xstate_sizes[2]:  256
+[    0.000000] x86/fpu: Enabled xstate features 0x7, context size is 832 bytes, using 'standard' format.
+[    0.000000] BIOS-provided physical RAM map:
+[    0.000000] BIOS-e820: [mem 0x0000000000000000-0x0000000000000fff] reserved
+[    0.000000] BIOS-e820: [mem 0x0000000000001000-0x0000000000054fff] usable
+[    0.000000] BIOS-e820: [mem 0x0000000000055000-0x000000000005ffff] reserved
+[    0.000000] BIOS-e820: [mem 0x0000000000060000-0x0000000000097fff] usable
+[    0.000000] BIOS-e820: [mem 0x0000000000098000-0x000000000009ffff] reserved
+[    0.000000] BIOS-e820: [mem 0x0000000000100000-0x0000000025eeefff] usable
+[    0.000000] BIOS-e820: [mem 0x0000000025eef000-0x0000000025feefff] reserved
+[    0.000000] BIOS-e820: [mem 0x0000000025fef000-0x00000000260eefff] type 20
+[    0.000000] BIOS-e820: [mem 0x00000000260ef000-0x000000002616efff] reserved
+[    0.000000] BIOS-e820: [mem 0x000000002616f000-0x000000002617efff] ACPI data
+[    0.000000] BIOS-e820: [mem 0x000000002617f000-0x00000000261fefff] ACPI NVS
+[    0.000000] BIOS-e820: [mem 0x00000000261ff000-0x00000000265dffff] usable
+[    0.000000] BIOS-e820: [mem 0x00000000265e0000-0x00000000265fffff] reserved
+[    0.000000] printk: bootconsole [earlyser0] enabled
+[    0.000000] NX (Execute Disable) protection: active
+[    0.000000] efi: EFI v2.70 by EDK II
+[    0.000000] efi: TPMFinalLog=0x261f7000 ACPI=0x2617e000 ACPI 2.0=0x2617e014 SMBIOS=0x25fcc000 MEMATTR=0x249d6018 
+[    0.000000] secureboot: Secure boot disabled
+[    0.000000] SMBIOS 2.4 present.
+[    0.000000] DMI: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/02/2023
+[    0.000000] Hypervisor detected: KVM
+[    0.000000] kvm-clock: Using msrs 4b564d01 and 4b564d00
+[    0.000000] kvm-clock: cpu 0, msr 9601001, primary cpu clock
+[    0.000001] kvm-clock: using sched offset of 7400726553 cycles
+[    0.001763] clocksource: kvm-clock: mask: 0xffffffffffffffff max_cycles: 0x1cd42e4dffb, max_idle_ns: 881590591483 ns
+[    0.007211] tsc: Detected 2299.998 MHz processor
+[    0.008869] e820: update [mem 0x00000000-0x00000fff] usable ==> reserved
+[    0.008874] e820: remove [mem 0x000a0000-0x000fffff] usable
+[    0.008883] last_pfn = 0x265e0 max_arch_pfn = 0x400000000
+[    0.010817] MTRR default type: write-back
+[    0.010819] MTRR fixed ranges enabled:
+[    0.010821]   00000-9FFFF write-back
+[    0.010822]   A0000-FFFFF uncachable
+[    0.010823] MTRR variable ranges enabled:
+[    0.010825]   0 base 000080000000 mask 3FFF80000000 uncachable
+[    0.010826]   1 disabled
+[    0.010826]   2 disabled
+[    0.010827]   3 disabled
+[    0.010828]   4 disabled
+[    0.010828]   5 disabled
+[    0.010829]   6 disabled
+[    0.010829]   7 disabled
+[    0.010842] x86/PAT: Configuration [0-7]: WB  WC  UC- UC  WB  WP  UC- WT  
+[    0.014003] Using GB pages for direct mapping
+[    0.015670] RAMDISK: [mem 0x232a3000-0x24025fff]
+[    0.016841] ACPI: Early table checksum verification disabled
+[    0.018430] ACPI: RSDP 0x000000002617E014 000024 (v02 Google)
+[    0.020434] ACPI: XSDT 0x000000002617D0E8 00005C (v01 Google GOOGFACP 00000001      01000013)
+[    0.023272] ACPI: FACP 0x0000000026178000 0000F4 (v02 Google GOOGFACP 00000001 GOOG 00000001)
+[    0.025742] ACPI: DSDT 0x0000000026179000 001A64 (v01 Google GOOGDSDT 00000001 GOOG 00000001)
+[    0.028267] ACPI: FACS 0x00000000261F2000 000040
+[    0.029605] ACPI: SSDT 0x000000002617C000 000316 (v02 GOOGLE Tpm2Tabl 00001000 INTL 20211217)
+[    0.032150] ACPI: TPM2 0x000000002617B000 000034 (v04 GOOGLE          00000001 GOOG 00000001)
+[    0.034821] ACPI: SRAT 0x0000000026177000 0000B8 (v03 Google GOOGSRAT 00000001 GOOG 00000001)
+[    0.037158] ACPI: APIC 0x0000000026176000 00006E (v05 Google GOOGAPIC 00000001 GOOG 00000001)
+[    0.039907] ACPI: SSDT 0x0000000026175000 00091F (v01 Google GOOGSSDT 00000001 GOOG 00000001)
+[    0.042673] ACPI: WAET 0x0000000026174000 000028 (v01 Google GOOGWAET 00000001 GOOG 00000001)
+[    0.047112] ACPI: Reserving FACP table memory at [mem 0x26178000-0x261780f3]
+[    0.049499] ACPI: Reserving DSDT table memory at [mem 0x26179000-0x2617aa63]
+[    0.051661] ACPI: Reserving FACS table memory at [mem 0x261f2000-0x261f203f]
+[    0.054188] ACPI: Reserving SSDT table memory at [mem 0x2617c000-0x2617c315]
+[    0.056630] ACPI: Reserving TPM2 table memory at [mem 0x2617b000-0x2617b033]
+[    0.058837] ACPI: Reserving SRAT table memory at [mem 0x26177000-0x261770b7]
+[    0.060790] ACPI: Reserving APIC table memory at [mem 0x26176000-0x2617606d]
+[    0.063134] ACPI: Reserving SSDT table memory at [mem 0x26175000-0x2617591e]
+[    0.065938] ACPI: Reserving WAET table memory at [mem 0x26174000-0x26174027]
+[    0.068313] ACPI: Local APIC address 0xfee00000
+[    0.068350] SRAT: PXM 0 -> APIC 0x00 -> Node 0
+[    0.070104] ACPI: SRAT: Node 0 PXM 0 [mem 0x00000000-0x0009ffff]
+[    0.071836] ACPI: SRAT: Node 0 PXM 0 [mem 0x00100000-0x265fffff]
+[    0.073599] NUMA: Node 0 [mem 0x00000000-0x0009ffff] + [mem 0x00100000-0x265dffff] -> [mem 0x00000000-0x265dffff]
+[    0.076867] NODE_DATA(0) allocated [mem 0x264a2000-0x264cbfff]
+[    0.078923] Zone ranges:
+[    0.079776]   DMA      [mem 0x0000000000001000-0x0000000000ffffff]
+[    0.081364]   DMA32    [mem 0x0000000001000000-0x00000000265dffff]
+[    0.083110]   Normal   empty
+[    0.084210]   Device   empty
+[    0.085367] Movable zone start for each node
+[    0.086714] Early memory node ranges
+[    0.087801]   node   0: [mem 0x0000000000001000-0x0000000000054fff]
+[    0.089422]   node   0: [mem 0x0000000000060000-0x0000000000097fff]
+[    0.091209]   node   0: [mem 0x0000000000100000-0x0000000025eeefff]
+[    0.092812]   node   0: [mem 0x00000000261ff000-0x00000000265dffff]
+[    0.094838] Initmem setup node 0 [mem 0x0000000000001000-0x00000000265dffff]
+[    0.098403] On node 0 totalpages: 156252
+[    0.098410]   DMA zone: 64 pages used for memmap
+[    0.098410]   DMA zone: 3121 pages reserved
+[    0.098412]   DMA zone: 3980 pages, LIFO batch:0
+[    0.098413]   DMA32 zone: 2392 pages used for memmap
+[    0.098414]   DMA32 zone: 152272 pages, LIFO batch:31
+[    0.098875] On node 0, zone DMA: 1 pages in unavailable ranges
+[    0.098878] On node 0, zone DMA: 11 pages in unavailable ranges
+[    0.101055] On node 0, zone DMA: 104 pages in unavailable ranges
+[    0.104443] On node 0, zone DMA32: 784 pages in unavailable ranges
+[    0.106343] On node 0, zone DMA32: 6688 pages in unavailable ranges
+[    0.108489] ACPI: PM-Timer IO Port: 0xb008
+[    0.111318] ACPI: Local APIC address 0xfee00000
+[    0.111345] ACPI: LAPIC_NMI (acpi_id[0xff] dfl dfl lint[0x1])
+[    0.113218] IOAPIC[0]: apic_id 0, version 17, address 0xfec00000, GSI 0-23
+[    0.115149] ACPI: INT_SRC_OVR (bus 0 bus_irq 5 global_irq 5 high level)
+[    0.117396] ACPI: INT_SRC_OVR (bus 0 bus_irq 9 global_irq 9 high level)
+[    0.119235] ACPI: INT_SRC_OVR (bus 0 bus_irq 10 global_irq 10 high level)
+[    0.121213] ACPI: INT_SRC_OVR (bus 0 bus_irq 11 global_irq 11 high level)
+[    0.123161] ACPI: IRQ5 used by override.
+[    0.123163] ACPI: IRQ9 used by override.
+[    0.123163] ACPI: IRQ10 used by override.
+[    0.123164] ACPI: IRQ11 used by override.
+[    0.123168] Using ACPI (MADT) for SMP configuration information
+[    0.125232] smpboot: Allowing 1 CPUs, 0 hotplug CPUs
+[    0.127065] PM: hibernation: Registered nosave memory: [mem 0x00000000-0x00000fff]
+[    0.129624] PM: hibernation: Registered nosave memory: [mem 0x00055000-0x0005ffff]
+[    0.131093] PM: hibernation: Registered nosave memory: [mem 0x00098000-0x0009ffff]
+[    0.132708] PM: hibernation: Registered nosave memory: [mem 0x000a0000-0x000fffff]
+[    0.134118] PM: hibernation: Registered nosave memory: [mem 0x25eef000-0x25feefff]
+[    0.136278] PM: hibernation: Registered nosave memory: [mem 0x25fef000-0x260eefff]
+[    0.138714] PM: hibernation: Registered nosave memory: [mem 0x260ef000-0x2616efff]
+[    0.140546] PM: hibernation: Registered nosave memory: [mem 0x2616f000-0x2617efff]
+[    0.142791] PM: hibernation: Registered nosave memory: [mem 0x2617f000-0x261fefff]
+[    0.145015] [mem 0x26600000-0xffffffff] available for PCI devices
+[    0.146647] Booting paravirtualized kernel on KVM
+[    0.148246] clocksource: refined-jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 7645519600211568 ns
+[    0.155992] setup_percpu: NR_CPUS:8192 nr_cpumask_bits:1 nr_cpu_ids:1 nr_node_ids:1
+[    0.159046] percpu: Embedded 63 pages/cpu s221184 r8192 d28672 u2097152
+[    0.160824] pcpu-alloc: s221184 r8192 d28672 u2097152 alloc=1*2097152
+[    0.160826] pcpu-alloc: [0] 0 
+[    0.160863] kvm-guest: PV spinlocks disabled, single CPU
+[    0.162651] Built 1 zonelists, mobility grouping on.  Total pages: 150675
+[    0.164718] Policy zone: DMA32
+[    0.165529] Kernel command line: BOOT_IMAGE=/boot/vmlinuz-5.10.0-21-cloud-amd64 root=UUID=9eb3b591-a503-403b-b96c-32352ee68fc8 ro console=tty0 console=ttyS0,115200 earlyprintk=ttyS0,115200 consoleblank=0
+[    0.171045] Dentry cache hash table entries: 131072 (order: 8, 1048576 bytes, linear)
+[    0.173689] Inode-cache hash table entries: 65536 (order: 7, 524288 bytes, linear)
+[    0.176319] mem auto-init: stack:off, heap alloc:on, heap free:off
+[    0.180385] Memory: 208948K/625008K available (12296K kernel code, 2551K rwdata, 6936K rodata, 2464K init, 3760K bss, 103452K reserved, 0K cma-reserved)
+[    0.187117] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=1, Nodes=1
+[    0.189473] Kernel/User page tables isolation: enabled
+[    0.191129] ftrace: allocating 33829 entries in 133 pages
+[    0.217379] ftrace: allocated 133 pages with 3 groups
+[    0.219849] rcu: Hierarchical RCU implementation.
+[    0.221228] rcu:     RCU restricting CPUs from NR_CPUS=8192 to nr_cpu_ids=1.
+[    0.223813]  Rude variant of Tasks RCU enabled.
+[    0.224912]  Tracing variant of Tasks RCU enabled.
+[    0.226228] rcu: RCU calculated value of scheduler-enlistment delay is 25 jiffies.
+[    0.228619] rcu: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=1
+[    0.234992] NR_IRQS: 524544, nr_irqs: 256, preallocated irqs: 16
+[    0.236955] random: crng init done
+[    0.237853] Console: colour dummy device 80x25
+[    0.238911] printk: console [tty0] enabled
+[    0.240197] printk: console [ttyS0] enabled
+[    0.242286] printk: bootconsole [earlyser0] disabled
+[    0.244616] ACPI: Core revision 20200925
+[    0.245685] APIC: Switch to symmetric I/O mode setup
+[    0.247819] x2apic enabled
+[    0.251628] Switched APIC routing to physical x2apic.
+[    0.257999] ..TIMER: vector=0x30 apic1=0 pin1=0 apic2=-1 pin2=-1
+[    0.260300] clocksource: tsc-early: mask: 0xffffffffffffffff max_cycles: 0x212733415c7, max_idle_ns: 440795236380 ns
+[    0.263665] Calibrating delay loop (skipped) preset value.. 4599.99 BogoMIPS (lpj=9199992)
+[    0.267665] pid_max: default: 32768 minimum: 301
+[    0.270427] LSM: Security Framework initializing
+[    0.271675] Yama: disabled by default; enable with sysctl kernel.yama.*
+[    0.272939] AppArmor: AppArmor initialized
+[    0.273843] TOMOYO Linux initialized
+[    0.274952] Mount-cache hash table entries: 2048 (order: 2, 16384 bytes, linear)
+[    0.275681] Mountpoint-cache hash table entries: 2048 (order: 2, 16384 bytes, linear)
+[    0.280330] Last level iTLB entries: 4KB 1024, 2MB 1024, 4MB 1024
+[    0.282000] Last level dTLB entries: 4KB 1024, 2MB 1024, 4MB 1024, 1GB 4
+[    0.283672] Spectre V1 : Mitigation: usercopy/swapgs barriers and __user pointer sanitization
+[    0.286018] Spectre V2 : Mitigation: IBRS
+[    0.287063] Spectre V2 : Spectre v2 / SpectreRSB mitigation: Filling RSB on context switch
+[    0.287665] Spectre V2 : Spectre v2 / SpectreRSB : Filling RSB on VMEXIT
+[    0.289398] RETBleed: Mitigation: IBRS
+[    0.291666] Spectre V2 : mitigation: Enabling conditional Indirect Branch Prediction Barrier
+[    0.293981] Speculative Store Bypass: Mitigation: Speculative Store Bypass disabled via prctl and seccomp
+[    0.295676] MDS: Mitigation: Clear CPU buffers
+[    0.297133] MMIO Stale Data: Vulnerable: Clear CPU buffers attempted, no microcode
+[    0.320180] Freeing SMP alternatives memory: 32K
+[    0.431996] smpboot: CPU0: Intel(R) Xeon(R) CPU @ 2.30GHz (family: 0x6, model: 0x3f, stepping: 0x0)
+[    0.435826] Performance Events: unsupported p6 CPU model 63 no PMU driver, software events only.
+[    0.439763] rcu: Hierarchical SRCU implementation.
+[    0.442214] NMI watchdog: Perf NMI watchdog permanently disabled
+[    0.443721] smp: Bringing up secondary CPUs ...
+[    0.445170] smp: Brought up 1 node, 1 CPU
+[    0.447667] smpboot: Max logical packages: 1
+[    0.449184] smpboot: Total of 1 processors activated (4599.99 BogoMIPS)
+[    0.453084] node 0 deferred pages initialised in 4ms
+[    0.454653] devtmpfs: initialized
+[    0.455711] x86/mm: Memory block size: 128MB
+[    0.456961] PM: Registering ACPI NVS region [mem 0x2617f000-0x261fefff] (524288 bytes)
+[    0.459752] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 7645041785100000 ns
+[    0.462757] futex hash table entries: 256 (order: 2, 16384 bytes, linear)
+[    0.463866] NET: Registered protocol family 16
+[    0.465427] DMA: preallocated 128 KiB GFP_KERNEL pool for atomic allocations
+[    0.467779] DMA: preallocated 128 KiB GFP_KERNEL|GFP_DMA pool for atomic allocations
+[    0.471704] DMA: preallocated 128 KiB GFP_KERNEL|GFP_DMA32 pool for atomic allocations
+[    0.474091] audit: initializing netlink subsys (disabled)
+[    0.475785] thermal_sys: Registered thermal governor 'fair_share'
+[    0.475786] thermal_sys: Registered thermal governor 'bang_bang'
+[    0.477878] thermal_sys: Registered thermal governor 'step_wise'
+[    0.479670] audit: type=2000 audit(1679216476.242:1): state=initialized audit_enabled=0 res=1
+[    0.483681] thermal_sys: Registered thermal governor 'user_space'
+[    0.483682] thermal_sys: Registered thermal governor 'power_allocator'
+[    0.487678] cpuidle: using governor ladder
+[    0.491665] cpuidle: using governor menu
+[    0.492920] ACPI: bus type PCI registered
+[    0.494039] acpiphp: ACPI Hot Plug PCI Controller Driver version: 0.5
+[    0.495778] PCI: Using configuration type 1 for base access
+[    0.500120] Kprobes globally optimized
+[    0.501823] HugeTLB registered 1.00 GiB page size, pre-allocated 0 pages
+[    0.503672] HugeTLB registered 2.00 MiB page size, pre-allocated 0 pages
+[    0.633311] ACPI: Added _OSI(Module Device)
+[    0.634907] ACPI: Added _OSI(Processor Device)
+[    0.635668] ACPI: Added _OSI(3.0 _SCP Extensions)
+[    0.637077] ACPI: Added _OSI(Processor Aggregator Device)
+[    0.639677] ACPI: Added _OSI(Linux-Dell-Video)
+[    0.640896] ACPI: Added _OSI(Linux-Lenovo-NV-HDMI-Audio)
+[    0.642489] ACPI: Added _OSI(Linux-HPI-Hybrid-Graphics)
+[    0.644676] ACPI: 3 ACPI AML tables successfully acquired and loaded
+[    0.648671] ACPI: Interpreter enabled
+[    0.649927] ACPI: (supports S0 S3 S4 S5)
+[    0.651102] ACPI: Using IOAPIC for interrupt routing
+[    0.651688] PCI: Using host bridge windows from ACPI; if necessary, use "pci=nocrs" and report a bug
+[    0.654022] ACPI: Enabled 16 GPEs in block 00 to 0F
+[    0.657712] ACPI: PCI Root Bridge [PCI0] (domain 0000 [bus 00-ff])
+[    0.659675] acpi PNP0A03:00: _OSC: OS supports [ASPM ClockPM Segments MSI HPX-Type3]
+[    0.662045] acpi PNP0A03:00: fail to add MMCONFIG information, can't access extended PCI configuration space under this bridge.
+[    0.664336] PCI host bridge to bus 0000:00
+[    0.667669] pci_bus 0000:00: root bus resource [io  0x0000-0x0cf7 window]
+[    0.670623] pci_bus 0000:00: root bus resource [io  0x0d00-0xffff window]
+[    0.671669] pci_bus 0000:00: root bus resource [mem 0x000a0000-0x000bffff window]
+[    0.675666] pci_bus 0000:00: root bus resource [mem 0x80000000-0xfebfefff window]
+[    0.677892] pci_bus 0000:00: root bus resource [bus 00-ff]
+[    0.679725] pci 0000:00:00.0: [8086:1237] type 00 class 0x060000
+[    0.686118] pci 0000:00:01.0: [8086:7110] type 00 class 0x060100
+[    0.719961] pci 0000:00:01.3: [8086:7113] type 00 class 0x068000
+[    0.751713] pci 0000:00:01.3: quirk: [io  0xb000-0xb03f] claimed by PIIX4 ACPI
+[    0.756013] pci 0000:00:03.0: [1af4:1004] type 00 class 0x000000
+[    0.767668] pci 0000:00:03.0: reg 0x10: [io  0xc040-0xc07f]
+[    0.777683] pci 0000:00:03.0: reg 0x14: [mem 0x80000000-0x8000007f]
+[    0.806080] pci 0000:00:04.0: [1af4:1000] type 00 class 0x020000
+[    0.821916] pci 0000:00:04.0: reg 0x10: [io  0xc000-0xc03f]
+[    0.831670] pci 0000:00:04.0: reg 0x14: [mem 0x80002000-0x8000203f]
+[    0.859978] pci 0000:00:05.0: [1af4:1005] type 00 class 0x00ff00
+[    0.870700] pci 0000:00:05.0: reg 0x10: [io  0xc080-0xc09f]
+[    0.879668] pci 0000:00:05.0: reg 0x14: [mem 0x80001000-0x8000103f]
+[    0.907705] ACPI: PCI Interrupt Link [LNKA] (IRQs 5 *10 11)
+[    0.911747] ACPI: PCI Interrupt Link [LNKB] (IRQs 5 *10 11)
+[    0.915751] ACPI: PCI Interrupt Link [LNKC] (IRQs 5 10 *11)
+[    0.919749] ACPI: PCI Interrupt Link [LNKD] (IRQs 5 10 *11)
+[    0.923700] ACPI: PCI Interrupt Link [LNKS] (IRQs *9)
+[    0.925973] iommu: Default domain type: Translated 
+[    0.927721] vgaarb: loaded
+[    0.929082] Registered efivars operations
+[    0.930407] NetLabel: Initializing
+[    0.931665] NetLabel:  domain hash size = 128
+[    0.933202] NetLabel:  protocols = UNLABELED CIPSOv4 CALIPSO
+[    0.935694] NetLabel:  unlabeled traffic allowed by default
+[    0.938352] PCI: Using ACPI for IRQ routing
+[    0.939666] PCI: pci_cache_line_size set to 64 bytes
+[    0.939774] e820: reserve RAM buffer [mem 0x00055000-0x0005ffff]
+[    0.939777] e820: reserve RAM buffer [mem 0x00098000-0x0009ffff]
+[    0.939778] e820: reserve RAM buffer [mem 0x25eef000-0x27ffffff]
+[    0.939779] e820: reserve RAM buffer [mem 0x265e0000-0x27ffffff]
+[    0.939829] clocksource: Switched to clocksource kvm-clock
+[    0.953085] VFS: Disk quotas dquot_6.6.0
+[    0.954508] VFS: Dquot-cache hash table entries: 512 (order 0, 4096 bytes)
+[    0.956776] AppArmor: AppArmor Filesystem Enabled
+[    0.958451] pnp: PnP ACPI init
+[    0.959313] pnp 00:00: Plug and Play ACPI device, IDs PNP0b00 (active)
+[    0.959370] pnp 00:01: Plug and Play ACPI device, IDs PNP0303 (active)
+[    0.959409] pnp 00:02: Plug and Play ACPI device, IDs PNP0f13 (active)
+[    0.959451] pnp 00:03: Plug and Play ACPI device, IDs PNP0501 (active)
+[    0.959482] pnp 00:04: Plug and Play ACPI device, IDs PNP0501 (active)
+[    0.959515] pnp 00:05: Plug and Play ACPI device, IDs PNP0501 (active)
+[    0.959547] pnp 00:06: Plug and Play ACPI device, IDs PNP0501 (active)
+[    0.959724] pnp: PnP ACPI: found 7 devices
+[    0.966063] clocksource: acpi_pm: mask: 0xffffff max_cycles: 0xffffff, max_idle_ns: 2085701024 ns
+[    0.968612] NET: Registered protocol family 2
+[    0.969880] IP idents hash table entries: 16384 (order: 5, 131072 bytes, linear)
+[    0.973051] tcp_listen_portaddr_hash hash table entries: 512 (order: 1, 8192 bytes, linear)
+[    0.976368] TCP established hash table entries: 8192 (order: 4, 65536 bytes, linear)
+[    0.980760] TCP bind hash table entries: 8192 (order: 5, 131072 bytes, linear)
+[    0.983253] TCP: Hash tables configured (established 8192 bind 8192)
+[    0.985028] UDP hash table entries: 512 (order: 2, 16384 bytes, linear)
+[    0.992225] UDP-Lite hash table entries: 512 (order: 2, 16384 bytes, linear)
+[    0.995178] NET: Registered protocol family 1
+[    0.996555] NET: Registered protocol family 44
+[    0.998070] pci_bus 0000:00: resource 4 [io  0x0000-0x0cf7 window]
+[    1.000609] pci_bus 0000:00: resource 5 [io  0x0d00-0xffff window]
+[    1.002519] pci_bus 0000:00: resource 6 [mem 0x000a0000-0x000bffff window]
+[    1.004908] pci_bus 0000:00: resource 7 [mem 0x80000000-0xfebfefff window]
+[    1.007444] pci 0000:00:00.0: Limiting direct PCI/PCI transfers
+[    1.009250] PCI: CLS 0 bytes, default 64
+[    1.010877] Trying to unpack rootfs image as initramfs...
+[    1.245681] Freeing initrd memory: 13836K
+[    1.247262] clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x212733415c7, max_idle_ns: 440795236380 ns
+[    1.251328] clocksource: Switched to clocksource tsc
+[    1.254144] Initialise system trusted keyrings
+[    1.256243] Key type blacklist registered
+[    1.258904] workingset: timestamp_bits=36 max_order=18 bucket_order=0
+[    1.262004] zbud: loaded
+[    1.263179] Key type asymmetric registered
+[    1.264741] Asymmetric key parser 'x509' registered
+[    1.267023] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 252)
+[    1.270339] io scheduler mq-deadline registered
+[    1.272264] Serial: 8250/16550 driver, 4 ports, IRQ sharing enabled
+[    1.274723] 00:03: ttyS0 at I/O 0x3f8 (irq = 4, base_baud = 115200) is a 16550A
+[    1.278915] 00:04: ttyS1 at I/O 0x2f8 (irq = 3, base_baud = 115200) is a 16550A
+[    1.282901] 00:05: ttyS2 at I/O 0x3e8 (irq = 6, base_baud = 115200) is a 16550A
+[    1.285095] 00:06: ttyS3 at I/O 0x2e8 (irq = 7, base_baud = 115200) is a 16550A
+[    1.286983] i8042: PNP: PS/2 Controller [PNP0303:KBD,PNP0f13:MOU] at 0x60,0x64 irq 1,12
+[    1.290673] i8042: Warning: Keylock active
+[    1.294552] serio: i8042 KBD port at 0x60,0x64 irq 1
+[    1.297281] serio: i8042 AUX port at 0x60,0x64 irq 12
+[    1.299009] rtc_cmos 00:00: RTC can wake from S4
+[    1.301617] rtc_cmos 00:00: registered as rtc0
+[    1.303939] rtc_cmos 00:00: setting system clock to 2023-03-19T09:01:17 UTC (1679216477)
+[    1.308191] rtc_cmos 00:00: alarms up to one day, 114 bytes nvram
+[    1.310720] intel_pstate: CPU model not supported
+[    1.313260] NET: Registered protocol family 10
+[    1.324094] Segment Routing with IPv6
+[    1.327449] mip6: Mobile IPv6
+[    1.329440] NET: Registered protocol family 17
+[    1.331103] IPI shorthand broadcast: enabled
+[    1.332501] sched_clock: Marking stable (1313745031, 18715835)->(1340502378, -8041512)
+[    1.335219] registered taskstats version 1
+[    1.336885] Loading compiled-in X.509 certificates
+[    1.371180] Loaded X.509 cert 'Debian Secure Boot CA: 6ccece7e4c6c0d1f6149f3dd27dfcc5cbb419ea1'
+[    1.375443] Loaded X.509 cert 'Debian Secure Boot Signer 2022 - linux: 14011249c2675ea8e5148542202005810584b25f'
+[    1.379270] Key type .fscrypt registered
+[    1.381312] Key type fscrypt-provisioning registered
+[    1.383758] AppArmor: AppArmor sha1 policy hashing enabled
+[    1.387487] Freeing unused decrypted memory: 2036K
+[    1.391261] Freeing unused kernel image (initmem) memory: 2464K
+[    1.395716] Write protecting the kernel read-only data: 22528k
+[    1.399996] Freeing unused kernel image (text/rodata gap) memory: 2036K
+[    1.403645] Freeing unused kernel image (rodata/data gap) memory: 1256K
+[    1.408044] x86/mm: Checked W+X mappings: passed, no W+X pages found.
+[    1.411174] x86/mm: Checking user space page tables
+[    1.413981] x86/mm: Checked W+X mappings: passed, no W+X pages found.
+[    1.417293] Run /init as init process
+[    1.419046]   with arguments:
+[    1.419047]     /init
+[    1.419048]   with environment:
+[    1.419049]     HOME=/
+[    1.419049]     TERM=linux
+[    1.419050]     BOOT_IMAGE=/boot/vmlinuz-5.10.0-21-cloud-amd64
+[    1.499906] input: AT Translated Set 2 keyboard as /devices/platform/i8042/serio0/input/input0
+[    1.513845] PCI Interrupt Link [LNKC] enabled at IRQ 11
+[    1.526304] virtio-pci 0000:00:03.0: virtio_pci: leaving for legacy driver
+[    1.536206] PCI Interrupt Link [LNKD] enabled at IRQ 10
+[    1.538062] virtio-pci 0000:00:04.0: virtio_pci: leaving for legacy driver
+[    1.548033] PCI Interrupt Link [LNKA] enabled at IRQ 10
+[    1.550105] virtio-pci 0000:00:05.0: virtio_pci: leaving for legacy driver
+[    1.573280] SCSI subsystem initialized
+[    1.647010] virtio_net virtio1 ens4: renamed from eth0
+[    1.658160] scsi host0: Virtio SCSI HBA
+[    1.669818] scsi 0:0:1:0: Direct-Access     Google   PersistentDisk   1    PQ: 0 ANSI: 6
+[    1.701076] sd 0:0:1:0: [sda] 20971520 512-byte logical blocks: (10.7 GB/10.0 GiB)
+[    1.702920] sd 0:0:1:0: [sda] 4096-byte physical blocks
+[    1.705220] sd 0:0:1:0: [sda] Write Protect is off
+[    1.706530] sd 0:0:1:0: [sda] Mode Sense: 1f 00 00 08
+[    1.706626] sd 0:0:1:0: [sda] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
+[    1.723169]  sda: sda1 sda14 sda15
+[    1.736479] sd 0:0:1:0: [sda] Attached SCSI disk
+[    1.811023] gce-disk-expand: Resizing partition on 
+[    1.848738]  sda: sda1 sda14 sda15
+[    1.861990] gce-disk-expand: Disk /dev/sda1 doesn't need resizing.
+[    1.975978] EXT4-fs (sda1): mounted filesystem with ordered data mode. Opts: (null)
+[    2.023980] Not activating Mandatory Access Control as /sbin/tomoyo-init does not exist.
+[    2.325373] systemd[1]: Inserted module 'autofs4'
+[    2.438149] systemd[1]: systemd 247.3-7+deb11u1 running in system mode. (+PAM +AUDIT +SELINUX +IMA +APPARMOR +SMACK +SYSVINIT +UTMP +LIBCRYPTSETUP +GCRYPT +GNUTLS +ACL +XZ +LZ4 +ZSTD +SECCOMP +BLKID +ELFUTILS +KMOD +IDN2 -IDN +PCRE2 default-hierarchy=unified)
+[    2.446207] systemd[1]: Detected virtualization kvm.
+[    2.447843] systemd[1]: Detected architecture x86-64.
+[    2.462687] systemd[1]: Set hostname to <debian>.
+[    2.471267] systemd[1]: Initializing machine ID from KVM UUID.
+[    2.472926] systemd[1]: Installed transient /etc/machine-id file.
+[    2.761010] systemd[1]: Queued start job for default target Graphical Interface.
+[    2.764393] systemd[1]: Created slice system-getty.slice.
+[    2.776132] systemd[1]: Created slice system-modprobe.slice.
+[    2.788169] systemd[1]: Created slice system-serial\x2dgetty.slice.
+[    2.800119] systemd[1]: Created slice system-systemd\x2dgrowfs.slice.
+[    2.812141] systemd[1]: Created slice User and Session Slice.
+[    2.823979] systemd[1]: Started Dispatch Password Requests to Console Directory Watch.
+[    2.839903] systemd[1]: Started Forward Password Requests to Wall Directory Watch.
+[    2.852074] systemd[1]: Set up automount Arbitrary Executable File Formats File System Automount Point.
+[    2.867860] systemd[1]: Reached target Local Encrypted Volumes.
+[    2.879832] systemd[1]: Reached target Paths.
+[    2.891819] systemd[1]: Reached target Remote File Systems.
+[    2.903826] systemd[1]: Reached target Slices.
+[    2.915830] systemd[1]: Reached target Swap.
+[    2.927823] systemd[1]: Reached target System Time Set.
+[    2.940056] systemd[1]: Listening on Syslog Socket.
+[    2.952017] systemd[1]: Listening on fsck to fsckd communication Socket.
+[    2.963914] systemd[1]: Listening on initctl Compatibility Named Pipe.
+[    2.976159] systemd[1]: Listening on Journal Audit Socket.
+[    2.988143] systemd[1]: Listening on Journal Socket (/dev/log).
+[    3.000057] systemd[1]: Listening on Journal Socket.
+[    3.015121] systemd[1]: Listening on udev Control Socket.
+[    3.027977] systemd[1]: Listening on udev Kernel Socket.
+[    3.040809] systemd[1]: Mounting Huge Pages File System...
+[    3.052700] systemd[1]: Mounting POSIX Message Queue File System...
+[    3.068704] systemd[1]: Mounting Kernel Debug File System...
+[    3.080812] systemd[1]: Mounting Kernel Trace File System...
+[    3.092945] systemd[1]: Starting Create list of static device nodes for the current kernel...
+[    3.108780] systemd[1]: Starting Load Kernel Module configfs...
+[    3.120767] systemd[1]: Starting Load Kernel Module drm...
+[    3.132707] systemd[1]: Starting Load Kernel Module fuse...
+[    3.144980] systemd[1]: Condition check resulted in Set Up Additional Binary Formats being skipped.
+[    3.147286] systemd[1]: Condition check resulted in File System Check on Root Device being skipped.
+[    3.155879] systemd[1]: Starting Journal Service...
+[    3.160994] fuse: init (API version 7.32)
+[    3.163542] systemd[1]: Starting Load Kernel Modules...
+[    3.168812] systemd[1]: Starting Remount Root and Kernel File Systems...
+[    3.177444] systemd[1]: Starting Coldplug All udev Devices...
+[    3.197469] systemd[1]: Mounted Huge Pages File System.
+[    3.206875] systemd[1]: Mounted POSIX Message Queue File System.
+[    3.208651] EXT4-fs (sda1): re-mounted. Opts: discard,errors=remount-ro
+[    3.216801] systemd[1]: Mounted Kernel Debug File System.
+[    3.231637] systemd[1]: Mounted Kernel Trace File System.
+[    3.236238] systemd[1]: Finished Create list of static device nodes for the current kernel.
+[    3.242897] systemd[1]: modprobe@configfs.service: Succeeded.
+[    3.244527] systemd[1]: Finished Load Kernel Module configfs.
+[    3.252183] systemd[1]: modprobe@drm.service: Succeeded.
+[    3.253203] systemd[1]: Finished Load Kernel Module drm.
+[    3.264101] systemd[1]: modprobe@fuse.service: Succeeded.
+[    3.265509] systemd[1]: Finished Load Kernel Module fuse.
+[    3.268400] systemd[1]: Finished Load Kernel Modules.
+[    3.272122] systemd[1]: Finished Remount Root and Kernel File Systems.
+[    3.277711] systemd[1]: Mounting FUSE Control File System...
+[    3.287434] systemd[1]: Mounting Kernel Configuration File System...
+[    3.304609] systemd[1]: Starting Grow File System on /...
+[    3.311476] systemd[1]: Condition check resulted in Rebuild Hardware Database being skipped.
+[    3.314589] systemd[1]: Condition check resulted in Platform Persistent Storage Archival being skipped.
+[    3.324580] systemd[1]: Starting Load/Save Random Seed...
+[    3.328988] EXT4-fs (sda1): resizing filesystem from 2588667 to 2588667 blocks
+[    3.331645] systemd[1]: Starting Apply Kernel Variables...
+[    3.348664] systemd[1]: Starting Create System Users...
+[    3.353290] systemd[1]: Started Journal Service.
+[    3.437772] systemd-journald[181]: Received client request to flush runtime journal.
+[    3.651819] input: Power Button as /devices/LNXSYSTM:00/LNXPWRBN:00/input/input2
+[    3.672850] ACPI: Power Button [PWRF]
+[    3.673836] input: Sleep Button as /devices/LNXSYSTM:00/LNXSLPBN:00/input/input3
+[    3.691015] tpm_tis MSFT0101:00: 2.0 TPM (device-id 0x9009, rev-id 0)
+[    3.692349] ACPI: Sleep Button [SLPF]
+[    3.698379] pstore: Using crash dump compression: deflate
+[    3.699424] pstore: Registered efi as persistent store backend
+[    3.718018] sd 0:0:1:0: Attached scsi generic sg0 type 0
+[    3.802948] RAPL PMU: API unit is 2^-32 Joules, 0 fixed counters, 10737418240 ms ovfl timer
+[    3.828455] cryptd: max_cpu_qlen set to 1000
+[    3.851210] AVX2 version of gcm_enc/dec engaged.
+[    3.851940] AES CTR mode by8 optimization enabled
+[    4.149090] audit: type=1400 audit(1679216480.339:2): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/sbin/chronyd" pid=292 comm="apparmor_parser"
+[    4.181316] audit: type=1400 audit(1679216480.371:3): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/sbin/haveged" pid=293 comm="apparmor_parser"
+[    4.248885] audit: type=1400 audit(1679216480.439:4): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/bin/man" pid=294 comm="apparmor_parser"
+[    4.254318] audit: type=1400 audit(1679216480.443:5): apparmor="STATUS" operation="profile_load" profile="unconfined" name="man_filter" pid=294 comm="apparmor_parser"
+[    4.256765] audit: type=1400 audit(1679216480.443:6): apparmor="STATUS" operation="profile_load" profile="unconfined" name="man_groff" pid=294 comm="apparmor_parser"
+[    4.302347] audit: type=1400 audit(1679216480.491:7): apparmor="STATUS" operation="profile_load" profile="unconfined" name="nvidia_modprobe" pid=295 comm="apparmor_parser"
+[    4.306200] audit: type=1400 audit(1679216480.499:8): apparmor="STATUS" operation="profile_load" profile="unconfined" name="nvidia_modprobe//kmod" pid=295 comm="apparmor_parser"
+[    4.350382] audit: type=1400 audit(1679216480.539:9): apparmor="STATUS" operation="profile_load" profile="unconfined" name="lsb_release" pid=296 comm="apparmor_parser"

@@ -10,6 +10,5 @@ data "terraform_remote_state" "gcs" {
   config = {
     bucket  = "tripod-dev-tf-state"
     prefix  = "terraform/state"
-#    key     = "network/terraform.tfstate" 
  }
 }
